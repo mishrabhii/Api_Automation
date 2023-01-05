@@ -1,0 +1,183 @@
+package com.bridgelabz.qa.api_automation;
+
+import org.json.simple.JSONObject;
+import org.testng.annotations.Test;
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+
+public class Json_Server_Api_Automation_Server_Test {
+
+	//**************************POSTS************************
+
+	@Test (priority = 4)
+
+	public void create_post() {
+		RequestSpecification requestSpecification = RestAssured.given();
+		requestSpecification.header("Content-Type","application/json");
+		JSONObject json = new JSONObject();
+		json.put("id",3);
+		json.put("title", "wings of fire");
+		json.put("author","Arun tiwari" );
+		requestSpecification.body(json.toJSONString());
+		Response response = requestSpecification.post("http://localhost:3000/posts");
+		System.out.println("Response code : " + response.getStatusCode());
+		response.prettyPrint();
+		response.then().assertThat().statusCode(201);
+
+	}
+
+	@Test(priority = 6)
+
+	public void get_post() {
+
+		Response response = RestAssured.get("http://localhost:3000/posts");
+		System.out.println("Response code : " + response.getStatusCode());
+		response.prettyPrint();
+		response.then().assertThat().statusCode(200);
+
+	}
+	
+	@Test(priority = 5)
+
+	public void update_post() {
+		RequestSpecification requestSpecification = RestAssured.given();
+		requestSpecification.header("Content-Type","application/json");
+		JSONObject json = new JSONObject();
+		json.put("id",3);
+		json.put("title", "wings of fire- APJ Abdul kalam ji");
+		json.put("author","Arun tiwari" );
+		requestSpecification.body(json.toJSONString());
+		Response response = requestSpecification.put("http://localhost:3000/posts/3");
+		System.out.println("Response code : " + response.getStatusCode());
+		response.prettyPrint();
+		response.then().assertThat().statusCode(200);
+
+	}
+
+	@Test(priority = 7)
+
+	public void delete_post() {
+
+		Response response = RestAssured.delete("http://localhost:3000/posts/3");
+		System.out.println("Response code : " + response.getStatusCode());
+		response.prettyPrint();
+		response.then().assertThat().statusCode(200);
+
+	}
+
+	
+//******************************COMMENTS**************************
+	
+	@Test(priority = 8)
+
+	public void create_comments() {
+		RequestSpecification requestSpecification = RestAssured.given();
+		requestSpecification.header("Content-Type","application/json");
+		JSONObject json = new JSONObject();
+		json.put("id",3);
+		json.put("body", "grate book Arun ji on ABJ Abdul Kalam Sir");
+		json.put("postId",3);
+		requestSpecification.body(json.toJSONString());
+		Response response = requestSpecification.post("http://localhost:3000/comments");
+		System.out.println("Response code : " + response.getStatusCode());
+		response.prettyPrint();
+		response.then().assertThat().statusCode(201);
+
+	}
+	@Test(priority = 10)
+
+	public void get_comments() {
+
+		Response response = RestAssured.get("http://localhost:3000/comments");
+		System.out.println("Response code : " + response.getStatusCode());
+		response.prettyPrint();
+		response.then().assertThat().statusCode(200);
+}
+	
+	@Test(priority = 9)
+
+	public void update_comment() {
+		RequestSpecification requestSpecification = RestAssured.given();
+		requestSpecification.header("Content-Type","application/json");
+		JSONObject json = new JSONObject();
+		json.put("id",3);
+		json.put("body", "grate book Arun Tiwari ji on ABJ Abdul Kalam Sir");
+		json.put("postId",3);
+		requestSpecification.body(json.toJSONString());
+		Response response = requestSpecification.put("http://localhost:3000/comments/3");
+		System.out.println("Response code : " + response.getStatusCode());
+		response.prettyPrint();
+		response.then().assertThat().statusCode(200);
+
+	}
+	
+
+	@Test(priority = 11)
+
+	public void delete_comment() {
+
+		Response response = RestAssured.delete("http://localhost:3000/comments/3");
+		System.out.println("Response code : " + response.getStatusCode());
+		response.prettyPrint();
+		response.then().assertThat().statusCode(200);
+
+	}
+	
+	
+	//*******************************PROFILE*********************************
+
+	
+	@Test(priority = 1)
+
+	public void create_profile() {
+		RequestSpecification requestSpecification = RestAssured.given();
+		requestSpecification.header("Content-Type","application/json");
+		JSONObject json = new JSONObject();
+		json.put("name","sandeep singh");
+		requestSpecification.body(json.toJSONString());
+		Response response = requestSpecification.post("http://localhost:3000/profile");
+		System.out.println("Response code : " + response.getStatusCode());
+		response.prettyPrint();
+		response.then().assertThat().statusCode(201);
+
+	}
+	
+	@Test(priority = 3)
+
+	public void get_profile() {
+
+		Response response = RestAssured.get("http://localhost:3000/profile");
+		System.out.println("Response code : " + response.getStatusCode());
+		response.prettyPrint();
+		response.then().assertThat().statusCode(200);
+}
+
+	@Test (priority = 2)
+
+	public void update_profile() {
+		RequestSpecification requestSpecification = RestAssured.given();
+		requestSpecification.header("Content-Type","application/json");
+		JSONObject json = new JSONObject();
+		json.put("name","Abhishek Kumar Mishra");
+		requestSpecification.body(json.toJSONString());
+		Response response = requestSpecification.put("http://localhost:3000/profile");
+		System.out.println("Response code : " + response.getStatusCode());
+		response.prettyPrint();
+		response.then().assertThat().statusCode(200);
+}
+	
+
+	@Test
+
+	public void get_all_comments_for_perticular_post() {
+
+		Response response = RestAssured.get("http://localhost:3000/comments/?postId=1");
+		System.out.println("Response code : " + response.getStatusCode());
+		response.prettyPrint();
+		response.then().assertThat().statusCode(200);
+
+	}
+	
+}
